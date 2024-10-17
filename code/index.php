@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Lab3 Sheshtanov</title>
-</head>
-<body>
-    <h1>Lab3 Sheshtanov</h1>
-    <ul>
-        <li><a href="1.php">[task1][a,b]</a></li>
-        <li><a href="2a.php">[task2][a]</a></li>
-        <li><a href="2b_input.php">[task2][b]</a></li>
-        <li><a href="2c_input.php">[task2][c]</a></li>
-        <li><a href="3.php">[task3]</a></li>
-    </ul>
-</body>
-</html>
+<?php
+require 'vendor/autoload.php';
+// configure the Google Client
+$client = new \Google_Client();
+$client->setApplicationName('Google Sheets API');
+$client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
+$client->setAccessType('offline');
+// credentials.json is the key file we downloaded while setting up our Google Sheets API
+$path = 'credentials.json';
+$client->setAuthConfig($path);
+
+// configure the Sheets Service
+$service = new \Google_Service_Sheets($client);
+$spreadsheetId = '1FJsMLqctfiXPpjykB7IV55NyeeFGkwgiWutfS_nFQX0';
+$spreadsheet = $service->spreadsheets->get($spreadsheetId);
+// var_dump($spreadsheet);
+$range = 'l1!A1:Z1000'; // here we use the name of the Sheet to get all the rows
+$response = $service->spreadsheets_values->get($spreadsheetId, $range);
+$values = $response->getValues();
+var_dump($values);
