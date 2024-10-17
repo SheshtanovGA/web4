@@ -82,4 +82,5 @@ foreach ($categories as $category) {
 
     echo "</ul>";
 }
+
 ?>
